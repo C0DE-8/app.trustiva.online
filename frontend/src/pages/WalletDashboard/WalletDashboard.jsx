@@ -245,7 +245,7 @@ function WalletDashboard() {
           feature={unavailableFeature}
           onClose={() => setUnavailableFeature('')}
         />
-        <WithdrawalModal mode={withdrawalDialog} onClose={() => setWithdrawalDialog('')} onPaypal={() => setWithdrawalDialog('paypal-error')} />
+        <WithdrawalModal mode={withdrawalDialog} onClose={() => setWithdrawalDialog('')} onPaypal={() => setWithdrawalDialog('paypal-loading')} onPaypalError={() => setWithdrawalDialog('paypal-error')} />
       </main>
     )
   }
@@ -325,7 +325,7 @@ function WalletDashboard() {
         feature={unavailableFeature}
         onClose={() => setUnavailableFeature('')}
       />
-      <WithdrawalModal mode={withdrawalDialog} onClose={() => setWithdrawalDialog('')} onPaypal={() => setWithdrawalDialog('paypal-error')} />
+      <WithdrawalModal mode={withdrawalDialog} onClose={() => setWithdrawalDialog('')} onPaypal={() => setWithdrawalDialog('paypal-loading')} onPaypalError={() => setWithdrawalDialog('paypal-error')} />
       <DashboardAlertModal
         alerts={alerts}
         activeIndex={activeAlertIndex}
@@ -474,10 +474,17 @@ function MainAppModal({ feature, onClose }) {
   )
 }
 
-function WithdrawalModal({ mode, onClose, onPaypal }) {
+function WithdrawalModal({ mode, onClose, onPaypal, onPaypalError }) {
   if (!mode) return null
 
+  const isLoading = mode === 'paypal-loading'
   const showError = mode === 'paypal-error'
+  useEffect(() => {
+    if (!isLoading) return undefined
+    const timer = window.setTimeout(onPaypalError, 1600)
+    return () => window.clearTimeout(timer)
+  }, [isLoading, onPaypalError])
+
   return (
     <div className="main-app-modal-backdrop" onMouseDown={onClose}>
       <section
@@ -490,7 +497,13 @@ function WithdrawalModal({ mode, onClose, onPaypal }) {
         <button className="main-app-modal-close" type="button" onClick={onClose} aria-label="Close">
           <FiX />
         </button>
-        {showError ? (
+        {isLoading ? (
+          <div className="withdrawal-loading" role="status" aria-live="polite">
+            <span className="withdrawal-spinner" aria-hidden="true" />
+            <h2 id="withdrawal-modal-title">Connecting to PayPal</h2>
+            <p>Please wait while we connect to the withdrawal network.</p>
+          </div>
+        ) : showError ? (
           <>
             <span className="main-app-modal-icon withdrawal-error-icon" aria-hidden="true"><FiAlertTriangle /></span>
             <h2 id="withdrawal-modal-title">Network error</h2>

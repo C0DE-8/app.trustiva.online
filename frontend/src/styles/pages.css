@@ -1436,6 +1436,25 @@ button.withdrawal-option:hover {
   box-shadow: none;
 }
 
+.withdrawal-loading {
+  text-align: center;
+}
+
+.withdrawal-spinner {
+  display: block;
+  width: 42px;
+  height: 42px;
+  margin: 4px auto 20px;
+  border: 3px solid #383e55;
+  border-top-color: #8178ff;
+  border-radius: 50%;
+  animation: withdrawal-spin 750ms linear infinite;
+}
+
+@keyframes withdrawal-spin {
+  to { transform: rotate(360deg); }
+}
+
 .withdrawal-modal:has(.withdrawal-error-icon) {
   text-align: center;
 }

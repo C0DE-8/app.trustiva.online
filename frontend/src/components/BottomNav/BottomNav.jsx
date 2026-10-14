@@ -1,7 +1,7 @@
 import { FiCompass, FiSearch, FiTrendingUp } from 'react-icons/fi'
 import { IoInfinite, IoWallet } from 'react-icons/io5'
 
-function BottomNav({ onUnavailable }) {
+function BottomNav({ onUnavailable, onExplore }) {
   return (
     <nav className="bottom-nav" aria-label="Primary">
       <div className="nav-group">
@@ -14,7 +14,7 @@ function BottomNav({ onUnavailable }) {
         <button type="button" aria-label="Swap" onClick={() => onUnavailable?.('Swap')}>
           <IoInfinite />
         </button>
-        <button type="button" aria-label="Explore" onClick={() => onUnavailable?.('Explore')}>
+        <button type="button" aria-label="Explore" onClick={() => onExplore?.()}>
           <FiCompass />
         </button>
       </div>

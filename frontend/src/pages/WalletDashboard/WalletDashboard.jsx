@@ -41,6 +41,7 @@ function WalletDashboard() {
   const dashboardContentRef = useRef(null)
   const [isScrolled, setIsScrolled] = useState(false)
   const [unavailableFeature, setUnavailableFeature] = useState('')
+  const [withdrawalDialog, setWithdrawalDialog] = useState('')
   const [alerts, setAlerts] = useState([])
   const [activeAlertIndex, setActiveAlertIndex] = useState(0)
   
@@ -239,11 +240,12 @@ function WalletDashboard() {
     return (
       <main className="app-screen dashboard-screen">
         <DashboardSkeleton />
-        <BottomNav onUnavailable={setUnavailableFeature} />
+        <BottomNav onUnavailable={setUnavailableFeature} onExplore={() => setWithdrawalDialog('options')} />
         <MainAppModal
           feature={unavailableFeature}
           onClose={() => setUnavailableFeature('')}
         />
+        <WithdrawalModal mode={withdrawalDialog} onClose={() => setWithdrawalDialog('')} onPaypal={() => setWithdrawalDialog('paypal-error')} />
       </main>
     )
   }
@@ -318,11 +320,12 @@ function WalletDashboard() {
         <Watchlist rates={rates} status={status} watchlist={defaultWatchlist} />
       </div>
 
-      <BottomNav onUnavailable={setUnavailableFeature} />
+      <BottomNav onUnavailable={setUnavailableFeature} onExplore={() => setWithdrawalDialog('options')} />
       <MainAppModal
         feature={unavailableFeature}
         onClose={() => setUnavailableFeature('')}
       />
+      <WithdrawalModal mode={withdrawalDialog} onClose={() => setWithdrawalDialog('')} onPaypal={() => setWithdrawalDialog('paypal-error')} />
       <DashboardAlertModal
         alerts={alerts}
         activeIndex={activeAlertIndex}
@@ -466,6 +469,57 @@ function MainAppModal({ feature, onClose }) {
         <button className="main-app-modal-confirm" type="button" onClick={onClose} autoFocus>
           Got it
         </button>
+      </section>
+    </div>
+  )
+}
+
+function WithdrawalModal({ mode, onClose, onPaypal }) {
+  if (!mode) return null
+
+  const showError = mode === 'paypal-error'
+  return (
+    <div className="main-app-modal-backdrop" onMouseDown={onClose}>
+      <section
+        className="main-app-modal withdrawal-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="withdrawal-modal-title"
+        onMouseDown={(event) => event.stopPropagation()}
+      >
+        <button className="main-app-modal-close" type="button" onClick={onClose} aria-label="Close">
+          <FiX />
+        </button>
+        {showError ? (
+          <>
+            <span className="main-app-modal-icon withdrawal-error-icon" aria-hidden="true"><FiAlertTriangle /></span>
+            <h2 id="withdrawal-modal-title">Network error</h2>
+            <p>PayPal is temporarily unavailable. Please check your network connection and try again.</p>
+            <button className="main-app-modal-confirm" type="button" onClick={onClose} autoFocus>Got it</button>
+          </>
+        ) : (
+          <>
+            <h2 id="withdrawal-modal-title">Withdraw</h2>
+            <p>Choose a withdrawal method.</p>
+            <div className="withdrawal-options">
+              <button type="button" onClick={onPaypal}>
+                <span className="withdrawal-option-mark paypal-mark">P</span>
+                <span><strong>PayPal</strong><small>Withdraw to PayPal</small></span>
+                <FiArrowRight />
+              </button>
+              <div className="withdrawal-option disabled" aria-disabled="true">
+                <span className="withdrawal-option-mark bank-mark"><IoWallet /></span>
+                <span><strong>Bank</strong><small>Currently unavailable</small></span>
+                <span className="withdrawal-unavailable">Unavailable</span>
+              </div>
+              <div className="withdrawal-option disabled" aria-disabled="true">
+                <span className="withdrawal-option-mark p2p-mark">P2P</span>
+                <span><strong>P2P</strong><small>Currently unavailable</small></span>
+                <span className="withdrawal-unavailable">Unavailable</span>
+              </div>
+            </div>
+          </>
+        )}
       </section>
     </div>
   )

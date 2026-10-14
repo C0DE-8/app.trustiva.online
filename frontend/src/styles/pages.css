@@ -1345,6 +1345,101 @@
   font-weight: 850;
 }
 
+.withdrawal-modal {
+  text-align: left;
+}
+
+.withdrawal-modal h2 {
+  padding-right: 34px;
+}
+
+.withdrawal-options {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.withdrawal-option {
+  display: grid;
+  min-height: 70px;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 13px;
+  border: 1px solid #383e55;
+  border-radius: 16px;
+  color: #fff;
+  background: #202438;
+  text-align: left;
+}
+
+button.withdrawal-option {
+  width: 100%;
+  font: inherit;
+  cursor: pointer;
+}
+
+button.withdrawal-option:hover {
+  border-color: #7168ff;
+  background: #282c45;
+}
+
+.withdrawal-option > span:nth-child(2) {
+  display: grid;
+  gap: 4px;
+}
+
+.withdrawal-option strong {
+  font-size: 14px;
+}
+
+.withdrawal-option small {
+  color: #a8abba;
+  font-size: 12px;
+}
+
+.withdrawal-option > svg {
+  color: #b8b4ff;
+}
+
+.withdrawal-option-mark {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border-radius: 13px;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.paypal-mark { color: #fff; background: #1768b3; font-size: 22px; }
+.bank-mark { color: #d1d5e8; background: #373d52; }
+.p2p-mark { color: #d1d5e8; background: #373d52; font-size: 11px; }
+
+.withdrawal-option.disabled {
+  border-color: #292d3b;
+  color: #85899a;
+  background: #191c27;
+}
+
+.withdrawal-option.disabled small { color: #777c8b; }
+
+.withdrawal-unavailable {
+  color: #777c8b;
+  font-size: 10px;
+  font-weight: 750;
+}
+
+.withdrawal-error-icon {
+  color: #ffd078;
+  background: #493821;
+  box-shadow: none;
+}
+
+.withdrawal-modal:has(.withdrawal-error-icon) {
+  text-align: center;
+}
+
 .dashboard-alert-backdrop {
   position: absolute;
   inset: 0;

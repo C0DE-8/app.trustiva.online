@@ -1412,7 +1412,8 @@ button.withdrawal-option:hover {
   font-weight: 900;
 }
 
-.paypal-mark { color: #fff; background: #1768b3; font-size: 22px; }
+.paypal-mark { background: #fff; }
+.paypal-mark svg { display: block; width: 30px; height: 30px; }
 .bank-mark { color: #d1d5e8; background: #373d52; }
 .p2p-mark { color: #d1d5e8; background: #373d52; font-size: 11px; }
 

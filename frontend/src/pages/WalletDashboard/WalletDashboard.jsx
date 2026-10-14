@@ -516,7 +516,12 @@ function WithdrawalModal({ mode, onClose, onPaypal, onPaypalError }) {
             <p>Choose a withdrawal method.</p>
             <div className="withdrawal-options">
               <button type="button" onClick={onPaypal}>
-                <span className="withdrawal-option-mark paypal-mark">P</span>
+                <span className="withdrawal-option-mark paypal-mark" aria-hidden="true">
+                  <svg viewBox="0 0 32 32" role="img" aria-label="PayPal">
+                    <path fill="#009cde" d="M12.4 5.5h8.1c4.3 0 6.1 2.2 5.5 6.4-.7 4.9-3.2 7.3-7.6 7.3h-2.1c-.6 0-1 .4-1.1 1l-.9 5.7c-.1.4-.4.7-.8.7h-4c-.4 0-.6-.3-.5-.7l3.4-19.8c0-.3.1-.6 0-.6Z" />
+                    <path fill="#012169" d="M8.2 9.2h8.1c4.3 0 6.1 2.2 5.5 6.4-.7 4.9-3.2 7.3-7.6 7.3h-2.1c-.6 0-1 .4-1.1 1l-.9 5.2c-.1.4-.4.7-.8.7h-4c-.4 0-.6-.3-.5-.7L8.2 9.2Z" />
+                  </svg>
+                </span>
                 <span><strong>PayPal</strong><small>Withdraw to PayPal</small></span>
                 <FiArrowRight />
               </button>
